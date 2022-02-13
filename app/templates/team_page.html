@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+
+<h1>{{ team }}</h1>
+
+<div>
+    {% if no_prospects %}
+    <p>No prospects entered for this team yet...please be patient</p>
+    {% else %}
+    <table id="league-table" class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Team</th>
+                <th>Position</th>
+                <th>Height</th>
+                <th>Weight</th>
+                <th>DOB</th>
+                <th>Age</th>
+                <th>Birthplace</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for prospect in prospects %}
+            <tr>
+                <td><a href="{{ url_for('player_page', player=prospect[0]) }}">{{ prospect[0] }}</a></td>
+                <td>{{ prospect[1] }}</td>
+                <td>{{ prospect[2] }}</td>
+                <td>{{ prospect[3] }}</td>
+                <td>{{ prospect[4] }}</td>
+                <td>{{ prospect[5] }}</td>
+                <td>{{ prospect[7] }}</td>
+                <td>{{ prospect[6] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</div>
+{% endblock %}

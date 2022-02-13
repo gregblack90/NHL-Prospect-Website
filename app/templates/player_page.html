@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+
+<!--PLAYER INFORMATION-->
+<div>
+    <h1>{{ player }}</h1>
+    <h4 style="margin-bottom:-15px">Position: <span style="font-weight:normal">{{player_info[2]}}</span></h4>
+    <h4 style="margin-bottom:-15px">Height: <span style="font-weight:normal">{{player_info[3]}}</span></h4>
+    <h4 style="margin-bottom:-15px">Weight: <span style="font-weight:normal">{{player_info[4]}}</span></h4>
+    <h4 style="margin-bottom:-15px">Age: <span style="font-weight:normal">{{age}}</span></h4>
+    <h4 style="margin-bottom:-15px">DOB: <span style="font-weight:normal">{{player_info[5]}}</span></h4>
+    <h4 style="margin-bottom:-15px">Born: <span style="font-weight:normal">{{player_info[6]}}</span></h4>
+    <h4>Last Data Update: <span style="font-weight:normal">{{last_update}}</span></h4>
+</div>
+
+<!--SEASON SELECT FOR CHART-->
+<div>
+    <select class="dropdown" id="dd">
+        <option value="select_season" selected="selected" onchange="update_chart(this.value)">Select Season</option>
+        {% for season in unique_season %}
+            <option value= {{season}}>{{ season }}</option>
+        {% endfor %}
+        <option value="career">Career</option>
+    </select>
+</div>
+
+<!--CANVAS FOR CHART-->
+<div id='chart-holder', class='chart-holder'>
+    <canvas id="myCanvas"></canvas>
+</div>
+
+<!--GAME LOG DATA-->
+<div>
+    {% if no_game_log_data %}
+    <p>No game logs found for this player yet...please be patient</p>
+    {% else %}
+    <table id="game-log-table">
+        <thead>
+            <tr>
+                <th>Season</th>
+                <th>League</th>
+                <th>Team</th>
+                <th>Opponent</th>
+                <th>Date</th>
+                <th>Goals</th>
+                <th>Assists</th>
+                <th>Points</th>
+                <th>SOG</th>
+                <th>+/-</th>
+                <th>PIM</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for game in game_log_data %}
+            <tr>
+                <td>{{ game[1] }}</td>
+                <td>{{ game[3] }}</td>
+                <td>{{ game[2] }}</td>
+                <td>{{ opponent_all[loop.index - 1] }}</td>
+                <td>{{ game[0] }}</td>
+                <td>{{ game[5] }}</td>
+                <td>{{ game[6] }}</td>
+                <td>{{ game[7] }}</td>
+                {% if game[9] == "Exhibition" and game[7] == "DNP"  %}
+                <td>DNP</td>
+                {% else %}
+                <td>{{ game[9] }}</td>
+                {% endif %}
+                {% if game[9] == "Exhibition" and game[7] == "DNP"  %}
+                <td>DNP</td>
+                {% else %}
+                <td>{{ game[10] }}</td>
+                {% endif %}
+                {% if game[9] == "Exhibition" and game[7] == "DNP"  %}
+                <td>DNP</td>
+                {% else %}
+                <td>{{ game[8] }}</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</div>
+
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<!--This function updates myCanvas based on selected season from dropdown(id=dd)-->
+<script>{% include "js/changeChart.js" %}</script>
+{% endblock scripts %}
+
+{% endblock %}

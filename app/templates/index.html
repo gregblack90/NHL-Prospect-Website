@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+
+<h3>Welcome to NHL Prospects</h3>
+
+<div>
+    <table id="league-table">
+        <thead>
+            <tr>
+                <th>Team</th>
+                <th>Conference</th>
+                <th>Division</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ent in entries %}
+            <tr>
+                <td><a href="{{ url_for('team_page', team=ent[0]) }}">{{ ent[0] }}</a></td>
+                <td>{{ ent[1] }}</td>
+                <td>{{ ent[2] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
