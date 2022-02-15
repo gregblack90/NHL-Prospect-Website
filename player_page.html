@@ -17,7 +17,7 @@
 <!--SEASON SELECT FOR CHART-->
 <div>
     <select class="dropdown" id="dd">
-        <option value="select_season" selected="selected" onchange="update_chart(this.value)">Select Season</option>
+        <option value="select_season" selected="selected" onchange="filter_data(this.value)">Select Season</option>
         {% for season in unique_season %}
             <option value= {{season}}>{{ season }}</option>
         {% endfor %}
@@ -27,7 +27,7 @@
 
 <!--CANVAS FOR CHART-->
 <div id='chart-holder', class='chart-holder'>
-    <canvas id="myCanvas"></canvas>
+    <canvas id="chart-canvas"></canvas>
 </div>
 
 <!--GAME LOG DATA-->
@@ -86,8 +86,8 @@
 
 {% block scripts %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-<!--This function updates myCanvas based on selected season from dropdown(id=dd)-->
-<script>{% include "js/changeChart.js" %}</script>
+<!--This function updates chart-canvas based on selected season from dropdown(id=dd)-->
+<script>{% include "js/filterData.js" %}</script>
 {% endblock scripts %}
 
 {% endblock %}
