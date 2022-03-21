@@ -11,6 +11,7 @@
     <h4 style="margin-bottom:-15px">Age: <span style="font-weight:normal">{{age}}</span></h4>
     <h4 style="margin-bottom:-15px">DOB: <span style="font-weight:normal">{{player_info[5]}}</span></h4>
     <h4 style="margin-bottom:-15px">Born: <span style="font-weight:normal">{{player_info[6]}}</span></h4>
+    <h4 style="margin-bottom:-15px">Current Team (League): <span style="font-weight:normal">{{curr_team_league[0]}} ({{curr_team_league[1]}})</span></h4>
     <h4>Last Data Update: <span style="font-weight:normal">{{last_update}}</span></h4>
 </div>
 
@@ -30,8 +31,42 @@
     <canvas id="chart-canvas"></canvas>
 </div>
 
-<!--GAME LOG DATA-->
+<!--SEASON TOTAL TABLE-->
 <div>
+<h3>SEASON TOTALS</h3>
+    <table id = "season-total-table">
+        <thead>
+            <tr>
+                <th>Season</th>
+                <th>Team</th>
+                <th>League</th>
+                <th>GP</th>
+                <th>Goals</th>
+                <th>Assists</th>
+                <th>Points</th>
+            </tr>
+        </thead>
+        <tbody>
+                {% for year, team_dict in season_totals.items() %}
+                    {% for team, stats in team_dict.items() %}
+                    <tr>
+                        <td>{{ year }}</td>
+                        <td>{{ team }}</td>
+                        <td>{{ stats['League'] }}</td>
+                        <td>{{ stats['GP'] }}</td>
+                        <td>{{ stats['G'] }}</td>
+                        <td>{{ stats['A'] }}</td>
+                        <td>{{ stats['P'] }}</td>
+                    </tr>
+                    {% endfor %}
+                {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!--GAME LOG TABLE-->
+<div>
+    <h3>GAME LOGS</h3>
     {% if no_game_log_data %}
     <p>No game logs found for this player yet...please be patient</p>
     {% else %}
