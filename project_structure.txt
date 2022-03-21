@@ -1,0 +1,15 @@
+config.py
+dbConfig.py
+nhldb_flaskapp.py
+team_dictionary.py
+[venv]
+[app]
+	--->__init__.py
+	--->routes.py
+	--->[templates]
+		--->base.html
+		--->index.html
+		--->player_page.html
+		--->team_page.html	
+		--->[js]
+			--->filterData.js
