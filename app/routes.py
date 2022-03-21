@@ -1,14 +1,15 @@
-from cgi import test
 from flask import render_template, flash, redirect, url_for, request
 from app import app
 from app.forms import LoginForm
 from flaskext.mysql import MySQL
 from datetime import date, datetime
-from time import sleep
+import time
 from collections import OrderedDict
 import dbConfig
 import pymysql
 import json
+import team_dictionary
+import requests
 
 
 @app.route('/')
@@ -54,12 +55,12 @@ def team_page(team):
     val = team
     cursor.execute(sql, val)
     prospects_tup = cursor.fetchall()
-    conn.close()
     # create empty lists for prospects or no prospect bit
     prospects = []
     no_prospects = []
     # if prospects exist
     if len(prospects_tup) > 0:
+        # FOR SELECTED TEAM GET PROSPECT INFO
         # data retrieved as a tuple, need to convert to list in order to append age after calculation
         prospects_list = [list(row) for row in prospects_tup]
         for prospect in prospects_list:
@@ -77,10 +78,35 @@ def team_page(team):
     # if no prospects exist
     else:
         no_prospects.append('True')
+
+    # GET SELECTED TEAM'S CONFERENCE AND DIVISION
+    sql_conf_div = 'SELECT * FROM teams WHERE Team=%s'
+    val_conf_div = team
+    cursor.execute(sql_conf_div, val_conf_div)
+    team_conf_div_val = cursor.fetchall()
+    team_conf_div = team_conf_div_val[0]
+
+    # END OF DATABASE QUERIES - close db connection
+    conn.close()
+
+    # NHL API DATA
+    # SELECTED TEAM'S CURRENT STANDINGS
+    #   get team ID needed for NHL API
+    team_id = str(team_dictionary.team_dict[team])
+    #   query NHL API for records of selected team
+    r = requests.get(url='https://statsapi.web.nhl.com/api/v1/teams/' + team_id + '/stats')
+    # convert response data into json
+    json_data_team = r.json()
+    team_data_stats = json_data_team['stats'][0]['splits'][0]['stat']
+    team_data_ranks = json_data_team['stats'][1]['splits'][0]['stat']
+
     return render_template('team_page.html', title=team,
                            team=team,
                            prospects=prospects,
-                           no_prospects=no_prospects)
+                           no_prospects=no_prospects,
+                           team_conf_div=team_conf_div,
+                           team_data_stats=team_data_stats,
+                           team_data_ranks=team_data_ranks)
 
 
 @app.route('/player_page/<player>', methods=['GET', 'POST'])
@@ -118,7 +144,7 @@ def player_page(player):
     except pymysql.err.ProgrammingError:
     #   set flag for no data to True
         no_game_log_data.append('True')
-    
+
     # GET DATE OF LAST UPDATE
     #   assemble sql query
     sql_update_time = "SELECT Date, Time FROM update_time WHERE Player=%s"
@@ -131,6 +157,16 @@ def player_page(player):
     update_date = update_time_data[0].strftime("%m/%d/%Y")
     update_time = update_time_data[1]
     last_update = update_date + ' @ ' + update_time[:5]
+
+    # GET CURRENT TEAM AND LEAGUE
+    sql_current_team = "SELECT * from current_team WHERE Player=%s"
+    val_current_team = sql_player
+    cursor.execute(sql_current_team, val_current_team)
+    current_team_tup = cursor.fetchall()
+    current_team = current_team_tup[0][1]
+    current_league = current_team_tup[0][2]
+    curr_team_league = []
+    curr_team_league.extend([current_team, current_league])
 
     # GET PLAYER INFORMATION
     #   sql statements for player information
@@ -162,27 +198,27 @@ def player_page(player):
         unique_season.append(season[0])
 
     # GET CUMULATIVE OF GOALS, ASSISTS, POINTS BY SEASON
-    #   Create empty dictionary1
+    #   Create empty dictionary
     data_dict = {}
     #   Create empty dictionary for max of goals, assists, points, games played
     max_totals = {}
 
     for season in unique_season:
     #   Get dates for unique season
-        sql_cumul_date = "SELECT Date FROM " + sql_player + " WHERE Season=%s"
-        val_cumul = season
+        sql_cumul_date = "SELECT Date FROM " + sql_player + " WHERE (Season=%s AND SOG !=%s)"
+        val_cumul = season, "Exhibition"
         cursor.execute(sql_cumul_date, val_cumul)
         date_data = cursor.fetchall()
     #   Get goals for unique season
-        sql_cumul_goals = "SELECT Goals FROM " + sql_player + " WHERE Season=%s"
+        sql_cumul_goals = "SELECT Goals FROM " + sql_player + " WHERE (Season=%s AND SOG !=%s)"
         cursor.execute(sql_cumul_goals, val_cumul)
         goals_data = cursor.fetchall()
     #   Get assists for unique season
-        sql_cumul_assists = "SELECT Assists FROM " + sql_player + " WHERE Season=%s"
+        sql_cumul_assists = "SELECT Assists FROM " + sql_player + " WHERE (Season=%s AND SOG !=%s)"
         cursor.execute(sql_cumul_assists, val_cumul)
         assists_data = cursor.fetchall()
     #   Get points for unique season
-        sql_cumul_points = "SELECT Total FROM " + sql_player + " WHERE Season=%s"
+        sql_cumul_points = "SELECT Total FROM " + sql_player + " WHERE (Season=%s AND SOG !=%s)"
         cursor.execute(sql_cumul_points, val_cumul)
         points_data = cursor.fetchall()
     #   Convert data into lists
@@ -247,14 +283,85 @@ def player_page(player):
         max_assists = str(cumul_assists[games_played-1])
     #   Max Points
         max_points = str(cumul_points[games_played-1])
+    #   Get number of games played and create list
+        games_played_sch = len(cumul_goals)
+        games_played_num_pass = [i for i in range(1, games_played_sch+1)]
     #   Append new data to dictionary
-        data_dict[season] = {'Goals': cumul_goals, 'Assists': cumul_assists, 'Points': cumul_points, 'Dates': dates}
+        data_dict[season] = {'Goals': cumul_goals, 'Assists': cumul_assists, 'Points': cumul_points, 'Dates': dates, 'GP': games_played_num_pass}
         max_totals[season] = {'Goals': max_goals, 'Assists': max_assists, 'Points': max_points, 'GP': num_games_pass}
+
+    # GET SEASON TOTALS BY TEAM
+    # needed to account for when players are traded mid season.
+    # 1. get unique seasons
+    # 2. for each unique season, get teams played for that season
+    # 3. for each team played for that season, get total of goals, assists, points and games played
+    # 4. add data from step 3 to dictionary (team = key)
+    # 5. once all teams have been looped through for unique season, add data from step 4 to dictionary (season = key)
+    #
+    #   create empty list for values
+    season_totals = {}
+    #   sql statements for db query
+    sql_unique_season = "SELECT DISTINCT Season FROM " + sql_player + " WHERE SOG !=%s"
+    val_unique_season = "Exhibition"
+    #   query database
+    cursor.execute(sql_unique_season, val_unique_season)
+    unique_season_tup = cursor.fetchall()
+    #   for each unique season...
+    for season in unique_season_tup:
+    #   set season
+        league_year = season[0]
+    #   get unique teams for that season (in case player got traded mid season)
+        sql_unique_season_team = "SELECT DISTINCT Team From " + sql_player + " WHERE (SOG!=%s AND Season =%s )"
+        val_unique_season_team = "Exhibition", season
+        cursor.execute(sql_unique_season_team, val_unique_season_team)
+        unique_season_team_tup = cursor.fetchall()
+    #   create empty dict for values
+        season_team_totals = {}
+    #   for each team within the season...
+        for team in unique_season_team_tup:
+    #       get game log data for specified team and season
+            sql_unique_season_team_stats = "SELECT * From " + sql_player +\
+                                         " WHERE (SOG!=%s AND Team =%s AND Season =%s )"
+            val_unique_season_team_stats = "Exhibition", team, season
+            cursor.execute(sql_unique_season_team_stats, val_unique_season_team_stats)
+            unique_season_team_stats_tup = cursor.fetchall()
+    #       set team name
+            team_key = team[0]
+    #       set league of team
+            team_league_key = unique_season_team_stats_tup[0][3]
+    #       create empty lists
+            goals_team = []
+            assists_team = []
+            points_team = []
+    #       for each game with specified team and season...
+            for game in unique_season_team_stats_tup:
+    #           create list of goals, assists and point values
+                goals_team.append(game[6])
+                assists_team.append(game[7])
+                points_team.append(game[8])
+    #       set counters
+            goals_team_num = 0
+            assists_team_num = 0
+            points_team_num = 0
+    #       for goals, assists and points...loop over list and get cumulative total of values
+            for goal_k in goals_team:
+                goals_team_num = goals_team_num + int(goal_k)
+            for assist_k in assists_team:
+                assists_team_num = assists_team_num + int(assist_k)
+            for point_k in points_team:
+                points_team_num = points_team_num + int(point_k)
+    #       get games played
+            gp_team_num = len(goals_team)
+    #       add stats for specified year for specified team
+            season_team_totals[team_key] = {'League': team_league_key, 'GP': gp_team_num,
+                                            'G': goals_team_num, 'A': assists_team_num, 'P': points_team_num}
+    #   after looping over seasons for a specific team, add that data to dictionary
+        season_totals[league_year] = season_team_totals
 
     # end of database queries - close db connection
     conn.close()
 
-    # need to format Opponent
+    # need to format Opponent and get league and team from each season
     #   add opponent to list
     opponent_all = []
     for game in game_log_data:
@@ -268,7 +375,7 @@ def player_page(player):
         opponent_all.append(opp_new)
 
     # render player page template
-    return render_template('player_page.html', 
+    return render_template('player_page.html',
                            title=player,
                            player=player,
                            game_log_data=game_log_data,
@@ -276,7 +383,9 @@ def player_page(player):
                            opponent_all=opponent_all,
                            player_info=player_info,
                            age=age,
+                           curr_team_league=curr_team_league,
                            unique_season=unique_season,
                            data_dict=data_dict,
                            last_update=last_update,
-                           max_totals=max_totals)
+                           max_totals=max_totals,
+                           season_totals=season_totals)
