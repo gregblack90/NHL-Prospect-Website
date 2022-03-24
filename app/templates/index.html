@@ -6,22 +6,125 @@
 
 <div>
     <table id="league-table">
+    {% for division in league_data %}
+        {% set iteration = loop.index0 %}
+        <!--EASTERN CONFERENCE-->
+        <!--METRO DIVISION-->
+        {% if iteration == 0 %}
         <thead>
             <tr>
-                <th>Team</th>
-                <th>Conference</th>
-                <th>Division</th>
+                <th>EASTERN CONFERENCE</th>
+            </tr>
+            <tr>
+                <th>Metropolitan Division</th>
+                <th>GP</th>
+                <th>W</th>
+                <th>L</th>
+                <th>OT</th>
+                <th>Pts</th>
+                <th>Pts%</th>
             </tr>
         </thead>
         <tbody>
-            {% for ent in entries %}
-            <tr>
-                <td><a href="{{ url_for('team_page', team=ent[0]) }}">{{ ent[0] }}</a></td>
-                <td>{{ ent[1] }}</td>
-                <td>{{ ent[2] }}</td>
-            </tr>
+            {% for team in league_data[iteration]['teamRecords'] %}
+                <tr>
+                    <td><a href="{{ url_for('team_page', team=team['team']['name']) }}">{{ team['team']['name'] }}</a></td>
+                    <td>{{ team['gamesPlayed'] }}</td>
+                    <td>{{ team['leagueRecord']['wins'] }}</td>
+                    <td>{{ team['leagueRecord']['losses'] }}</td>
+                    <td>{{ team['leagueRecord']['ot'] }}</td>
+                    <td>{{ team['points'] }}</td>
+                    <td>{{ (team['pointsPercentage']*100)|round(2, 'common') }}</td>
+                </tr>
             {% endfor %}
         </tbody>
+        <!--ATLANTIC DIVISION-->
+        {% elif iteration == 1  %}
+            <thead>
+                <tr>
+                    <th>Atlantic Division</th>
+                    <th>Team</th>
+                    <th>GP</th>
+                    <th>W</th>
+                    <th>L</th>
+                    <th>OT</th>
+                    <th>Pts</th>
+                    <th>Pts%</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for team in league_data[iteration]['teamRecords'] %}
+                <tr>
+                    <td><a href="{{ url_for('team_page', team=team['team']['name']) }}">{{ team['team']['name'] }}</a></td>
+                    <td>{{ team['gamesPlayed'] }}</td>
+                    <td>{{ team['leagueRecord']['wins'] }}</td>
+                    <td>{{ team['leagueRecord']['losses'] }}</td>
+                    <td>{{ team['leagueRecord']['ot'] }}</td>
+                    <td>{{ team['points'] }}</td>
+                    <td>{{ (team['pointsPercentage']*100)|round(2, 'common') }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        {% endif %}
+        <!--WESTERN CONFERENCE-->
+        <!--CENTRAL DIVISION-->
+        {% if iteration == 2 %}
+        <thead>
+            <tr>
+                <th>WESTERN CONFERENCE</th>
+            </tr>
+            <tr>
+                <th>Central Division</th>
+                <th>GP</th>
+                <th>W</th>
+                <th>L</th>
+                <th>OT</th>
+                <th>Pts</th>
+                <th>Pts%</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for team in league_data[iteration]['teamRecords'] %}
+                <tr>
+                    <td><a href="{{ url_for('team_page', team=team['team']['name']) }}">{{ team['team']['name'] }}</a></td>
+                    <td>{{ team['gamesPlayed'] }}</td>
+                    <td>{{ team['leagueRecord']['wins'] }}</td>
+                    <td>{{ team['leagueRecord']['losses'] }}</td>
+                    <td>{{ team['leagueRecord']['ot'] }}</td>
+                    <td>{{ team['points'] }}</td>
+                    <td>{{ (team['pointsPercentage']*100)|round(2, 'common') }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <!--PACIFIC DIVISION-->
+        {% elif iteration == 3  %}
+            <thead>
+                <tr>
+                    <th>Pacific Division</th>
+                    <th>Team</th>
+                    <th>GP</th>
+                    <th>W</th>
+                    <th>L</th>
+                    <th>OT</th>
+                    <th>Pts</th>
+                    <th>Pts%</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for team in league_data[iteration]['teamRecords'] %}
+                <tr>
+                    <td><a href="{{ url_for('team_page', team=team['team']['name']) }}">{{ team['team']['name'] }}</a></td>
+                    <td>{{ team['gamesPlayed'] }}</td>
+                    <td>{{ team['leagueRecord']['wins'] }}</td>
+                    <td>{{ team['leagueRecord']['losses'] }}</td>
+                    <td>{{ team['leagueRecord']['ot'] }}</td>
+                    <td>{{ team['points'] }}</td>
+                    <td>{{ (team['pointsPercentage']*100)|round(2, 'common') }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        {% endif %}
+    {% endfor %}
     </table>
 </div>
 {% endblock %}
