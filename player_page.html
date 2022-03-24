@@ -2,6 +2,10 @@
 
 {% block app_content %}
 
+<!--check for the no game log data flag -->
+{% if no_game_log_data %}
+<p>No game logs for {{ player }} yet...please be patient</p>
+{% else %}
 <!--PLAYER INFORMATION-->
 <div>
     <h1>{{ player }}</h1>
@@ -118,6 +122,7 @@
     </table>
     {% endif %}
 </div>
+{% endif %}
 
 {% block scripts %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
