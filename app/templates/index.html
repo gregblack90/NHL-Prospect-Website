@@ -2,10 +2,10 @@
 
 {% block app_content %}
 
-<h3>Welcome to NHL Prospects</h3>
+<h1>Welcome to NHL Prospects</h1>
 
 <div>
-    <table id="league-table">
+    <table id="league-table" class="league-table">
     {% for division in league_data %}
         {% set iteration = loop.index0 %}
         <!--EASTERN CONFERENCE-->
@@ -13,7 +13,7 @@
         {% if iteration == 0 %}
         <thead>
             <tr>
-                <th>EASTERN CONFERENCE</th>
+                <th colspan="7">EASTERN CONFERENCE</th>
             </tr>
             <tr>
                 <th>Metropolitan Division</th>
@@ -34,7 +34,7 @@
                     <td>{{ team['leagueRecord']['losses'] }}</td>
                     <td>{{ team['leagueRecord']['ot'] }}</td>
                     <td>{{ team['points'] }}</td>
-                    <td>{{ (team['pointsPercentage']*100)|round(2, 'common') }}</td>
+                    <td>{{ (team['pointsPercentage']*100)|round(2, 'common') }} %</td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -43,7 +43,6 @@
             <thead>
                 <tr>
                     <th>Atlantic Division</th>
-                    <th>Team</th>
                     <th>GP</th>
                     <th>W</th>
                     <th>L</th>
@@ -61,7 +60,7 @@
                     <td>{{ team['leagueRecord']['losses'] }}</td>
                     <td>{{ team['leagueRecord']['ot'] }}</td>
                     <td>{{ team['points'] }}</td>
-                    <td>{{ (team['pointsPercentage']*100)|round(2, 'common') }}</td>
+                    <td>{{ (team['pointsPercentage']*100)|round(2, 'common') }} %</td>
                 </tr>
             {% endfor %}
             </tbody>
@@ -71,7 +70,7 @@
         {% if iteration == 2 %}
         <thead>
             <tr>
-                <th>WESTERN CONFERENCE</th>
+                <th colspan="7">WESTERN CONFERENCE</th>
             </tr>
             <tr>
                 <th>Central Division</th>
@@ -92,7 +91,7 @@
                     <td>{{ team['leagueRecord']['losses'] }}</td>
                     <td>{{ team['leagueRecord']['ot'] }}</td>
                     <td>{{ team['points'] }}</td>
-                    <td>{{ (team['pointsPercentage']*100)|round(2, 'common') }}</td>
+                    <td>{{ (team['pointsPercentage']*100)|round(2, 'common') }} %</td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -101,7 +100,6 @@
             <thead>
                 <tr>
                     <th>Pacific Division</th>
-                    <th>Team</th>
                     <th>GP</th>
                     <th>W</th>
                     <th>L</th>
@@ -119,7 +117,7 @@
                     <td>{{ team['leagueRecord']['losses'] }}</td>
                     <td>{{ team['leagueRecord']['ot'] }}</td>
                     <td>{{ team['points'] }}</td>
-                    <td>{{ (team['pointsPercentage']*100)|round(2, 'common') }}</td>
+                    <td>{{ (team['pointsPercentage']*100)|round(2, 'common') }} %</td>
                 </tr>
             {% endfor %}
             </tbody>

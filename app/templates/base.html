@@ -1,53 +1,52 @@
 <html>
-<head>
-</head>
-<style>
-</style>
+    <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    </head>
 
-<div>
-    <a href="{{ url_for('index') }}">Home</a>
-    <!--<a>href="#">Login</a>-->
-  <div>
-    <button>NHL Teams</button>
     <div>
-        <a href="{{ url_for('team_page', team='Anaheim Ducks') }}">Anaheim Ducks</a>
-        <a href="{{ url_for('team_page', team='Arizona Coyotes') }}">Arizona Coyotes</a>
-        <a href="{{ url_for('team_page', team='Boston Bruins') }}">Boston Bruins</a>
-        <a href="{{ url_for('team_page', team='Buffalo Sabres') }}">Buffalo Sabres</a>
-        <a href="{{ url_for('team_page', team='Calgary Flames') }}">Calgary Flames</a>
-        <a href="{{ url_for('team_page', team='Carolina Hurricanes') }}">Carolina Hurricanes</a>
-        <a href="{{ url_for('team_page', team='Chicago Blackhawks') }}">Chicago Blackhawks</a>
-        <a href="{{ url_for('team_page', team='Colorado Avalanche') }}">Colorado Avalanche</a>
-        <a href="{{ url_for('team_page', team='Columbus Blue Jackets') }}">Columbus Blue Jackets</a>
-        <a href="{{ url_for('team_page', team='Dallas Stars') }}">Dallas Stars</a>
-        <a href="{{ url_for('team_page', team='Detroit Red Wings') }}">Detroit Red Wings</a>
-        <a href="{{ url_for('team_page', team='Edmonton Oilers') }}">Edmonton Oilers</a>
-        <a href="{{ url_for('team_page', team='Florida Panthers') }}">Florida Panthers</a>
-        <a href="{{ url_for('team_page', team='Los Angeles Kings') }}">Los Angeles Kings</a>
-        <a href="{{ url_for('team_page', team='Minnesota Wild') }}">Minnesota Wild</a>
-        <a href="{{ url_for('team_page', team='Montreal Canadiens') }}">Montreal Canadiens</a>
-        <a href="{{ url_for('team_page', team='Nashville Predators') }}">Nashville Predators</a>
-        <a href="{{ url_for('team_page', team='New Jersey Devils') }}">New Jersey Devils</a>
-        <a href="{{ url_for('team_page', team='New York Islanders') }}">New York Islanders</a>
-        <a href="{{ url_for('team_page', team='New York Rangers') }}">New York Rangers</a>
-        <a href="{{ url_for('team_page', team='Ottawa Senators') }}">Ottawa Senators</a>
-        <a href="{{ url_for('team_page', team='Philadelphia Flyers') }}">Philadelphia Flyers</a>
-        <a href="{{ url_for('team_page', team='Pittsburgh Penguins') }}">Pittsburgh Penguins</a>
-        <a href="{{ url_for('team_page', team='San Jose Sharks') }}">San Jose Sharks</a>
-        <a href="{{ url_for('team_page', team='Seattle Kraken') }}">Seattle Kraken</a>
-        <a href="{{ url_for('team_page', team='St. Louis Blues') }}">St. Louis Blues</a>
-        <a href="{{ url_for('team_page', team='Tampa Bay Lightning') }}">Tampa Bay Lightning</a>
-        <a href="{{ url_for('team_page', team='Toronto Maple Leafs') }}">Toronto Maple Leafs</a>
-        <a href="{{ url_for('team_page', team='Vancouver Canucks') }}">Vancouver Canucks</a>
-        <a href="{{ url_for('team_page', team='Vegas Golden Knights') }}">Vegas Golden Knights</a>
-        <a href="{{ url_for('team_page', team='Washington Capitals') }}">Washington Capitals</a>
-        <a href="{{ url_for('team_page', team='Winnipeg Jets') }}">Winnipeg Jets</a>
+        <a href="{{ url_for('index') }}">Home</a>
+        <!--<a>href="#">Login</a>-->
+    <div>
+        <button>NHL Teams</button>
+        <div>
+            <a href="{{ url_for('team_page', team='Anaheim Ducks') }}">Anaheim Ducks</a>
+            <a href="{{ url_for('team_page', team='Arizona Coyotes') }}">Arizona Coyotes</a>
+            <a href="{{ url_for('team_page', team='Boston Bruins') }}">Boston Bruins</a>
+            <a href="{{ url_for('team_page', team='Buffalo Sabres') }}">Buffalo Sabres</a>
+            <a href="{{ url_for('team_page', team='Calgary Flames') }}">Calgary Flames</a>
+            <a href="{{ url_for('team_page', team='Carolina Hurricanes') }}">Carolina Hurricanes</a>
+            <a href="{{ url_for('team_page', team='Chicago Blackhawks') }}">Chicago Blackhawks</a>
+            <a href="{{ url_for('team_page', team='Colorado Avalanche') }}">Colorado Avalanche</a>
+            <a href="{{ url_for('team_page', team='Columbus Blue Jackets') }}">Columbus Blue Jackets</a>
+            <a href="{{ url_for('team_page', team='Dallas Stars') }}">Dallas Stars</a>
+            <a href="{{ url_for('team_page', team='Detroit Red Wings') }}">Detroit Red Wings</a>
+            <a href="{{ url_for('team_page', team='Edmonton Oilers') }}">Edmonton Oilers</a>
+            <a href="{{ url_for('team_page', team='Florida Panthers') }}">Florida Panthers</a>
+            <a href="{{ url_for('team_page', team='Los Angeles Kings') }}">Los Angeles Kings</a>
+            <a href="{{ url_for('team_page', team='Minnesota Wild') }}">Minnesota Wild</a>
+            <a href="{{ url_for('team_page', team='Montreal Canadiens') }}">Montreal Canadiens</a>
+            <a href="{{ url_for('team_page', team='Nashville Predators') }}">Nashville Predators</a>
+            <a href="{{ url_for('team_page', team='New Jersey Devils') }}">New Jersey Devils</a>
+            <a href="{{ url_for('team_page', team='New York Islanders') }}">New York Islanders</a>
+            <a href="{{ url_for('team_page', team='New York Rangers') }}">New York Rangers</a>
+            <a href="{{ url_for('team_page', team='Ottawa Senators') }}">Ottawa Senators</a>
+            <a href="{{ url_for('team_page', team='Philadelphia Flyers') }}">Philadelphia Flyers</a>
+            <a href="{{ url_for('team_page', team='Pittsburgh Penguins') }}">Pittsburgh Penguins</a>
+            <a href="{{ url_for('team_page', team='San Jose Sharks') }}">San Jose Sharks</a>
+            <a href="{{ url_for('team_page', team='Seattle Kraken') }}">Seattle Kraken</a>
+            <a href="{{ url_for('team_page', team='St. Louis Blues') }}">St. Louis Blues</a>
+            <a href="{{ url_for('team_page', team='Tampa Bay Lightning') }}">Tampa Bay Lightning</a>
+            <a href="{{ url_for('team_page', team='Toronto Maple Leafs') }}">Toronto Maple Leafs</a>
+            <a href="{{ url_for('team_page', team='Vancouver Canucks') }}">Vancouver Canucks</a>
+            <a href="{{ url_for('team_page', team='Vegas Golden Knights') }}">Vegas Golden Knights</a>
+            <a href="{{ url_for('team_page', team='Washington Capitals') }}">Washington Capitals</a>
+            <a href="{{ url_for('team_page', team='Winnipeg Jets') }}">Winnipeg Jets</a>
+        </div>
     </div>
-  </div> 
-</div>
+    </div>
 
-<body>
-    {% block app_content %}{% endblock %}
-    {% block scripts %}{% endblock %}
-</body>
+    <body>
+        {% block app_content %}{% endblock %}
+        {% block scripts %}{% endblock %}
+    </body>
 </html>

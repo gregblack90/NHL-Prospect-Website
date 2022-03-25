@@ -1,0 +1,30 @@
+/* index.html league-table: overall formatting */
+.league-table {
+  width: 70%;
+  margin: auto;
+  text-align: center;
+  border-collapse: collapse;
+}
+
+/* index.html league-table[headers]: increase font size, add padding, add bottom border */
+.league-table th {
+    font-size: 18px;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* index.html league-table[rows]: add padding and bottom border */
+.league-table td {
+    padding: 7px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* index.html league-table: align only team name column to right */
+.league-table tbody>tr>td:nth-child(1) {
+    text-align: right;
+}
+
+/* index.html league-table: highlight cell if it's a team name (skipping header rows of column 1) */
+.league-table tbody>tr>:nth-child(1):hover {
+    background-color: whitesmoke;
+}
