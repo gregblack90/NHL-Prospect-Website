@@ -9,18 +9,47 @@
 <!--PLAYER INFORMATION-->
 <div>
     <h1>{{ player }}</h1>
-    <h4 style="margin-bottom:-15px">Position: <span style="font-weight:normal">{{player_info[2]}}</span></h4>
-    <h4 style="margin-bottom:-15px">Height: <span style="font-weight:normal">{{player_info[3]}}</span></h4>
-    <h4 style="margin-bottom:-15px">Weight: <span style="font-weight:normal">{{player_info[4]}}</span></h4>
-    <h4 style="margin-bottom:-15px">Age: <span style="font-weight:normal">{{age}}</span></h4>
-    <h4 style="margin-bottom:-15px">DOB: <span style="font-weight:normal">{{player_info[5]}}</span></h4>
-    <h4 style="margin-bottom:-15px">Born: <span style="font-weight:normal">{{player_info[6]}}</span></h4>
-    <h4 style="margin-bottom:-15px">Current Team (League): <span style="font-weight:normal">{{curr_team_league[0]}} ({{curr_team_league[1]}})</span></h4>
-    <h4>Last Data Update: <span style="font-weight:normal">{{last_update}}</span></h4>
+    <h2>Player Information</h2>
+    <table id="player-info-table", class="player-info-table">
+            <tr>
+                <th align="right">Position</th>
+                <td>{{player_info[2]}}</td>
+            </tr>
+            <tr>
+                <th align="right">Height (ft' in")</th>
+                <td>{{player_info[3]}}</td>
+            </tr>
+            <tr>
+                <th align="right">Weight (lbs)</th>
+                <td>{{player_info[4]}}</td>
+            </tr>
+            <tr>
+                <th align="right">Age</th>
+                <td>{{age}}</td>
+            </tr>
+            <tr>
+                <th align="right">DOB</th>
+                <td>{{player_info[5]}}</td>
+            </tr>
+            <tr>
+                <th align="right">Born</th>
+                <td>{{player_info[6]}}</td>
+            </tr>
+            <!--<tr>
+                <th align="right">Current Team (League)</th>
+                <td>{{curr_team_league[0]}}</td>
+            </tr>-->
+            <tr>
+                <th align="right">Last Update</th>
+                <td>{{last_update}}</td>
+            </tr>
+    </table>
 </div>
 
 <!--SEASON SELECT FOR CHART-->
 <div>
+    <h2>Data Graph</h2>
+    <label for="dd">Filter by Season: </label>
     <select class="dropdown" id="dd">
         <option value="select_season" selected="selected" onchange="filter_data(this.value)">Select Season</option>
         {% for season in unique_season %}
@@ -37,8 +66,8 @@
 
 <!--SEASON TOTAL TABLE-->
 <div>
-<h3>SEASON TOTALS</h3>
-    <table id = "season-total-table">
+    <h2 align="center">SEASON TOTALS</h2>
+    <table id = "season-total-table", class="season-total-table">
         <thead>
             <tr>
                 <th>Season</th>
@@ -70,11 +99,11 @@
 
 <!--GAME LOG TABLE-->
 <div>
-    <h3>GAME LOGS</h3>
+    <h2 align="center">GAME LOGS</h2>
     {% if no_game_log_data %}
     <p>No game logs found for this player yet...please be patient</p>
     {% else %}
-    <table id="game-log-table">
+    <table id="game-log-table", class="game-log-table">
         <thead>
             <tr>
                 <th>Season</th>

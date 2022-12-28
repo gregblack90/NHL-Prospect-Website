@@ -1,6 +1,6 @@
 /* index.html league-table: overall formatting */
 .league-table {
-  width: 70%;
+  width: 50%;
   margin: auto;
   text-align: center;
   border-collapse: collapse;
@@ -25,6 +25,110 @@
 }
 
 /* index.html league-table: highlight cell if it's a team name (skipping header rows of column 1) */
-.league-table tbody>tr>:nth-child(1):hover {
-    background-color: whitesmoke;
+.league-table tbody>tr:hover {
+    background-color: powderblue;
 }
+
+/* team_page tables */
+    /* team_record */
+    .team-record {
+      text-align: center;
+      border-collapse: collapse;
+      margin: auto;
+      width: 60%
+    }
+    .team-record th {
+      font-size: 13pt;
+      padding: 5px;
+      border-bottom: 1px solid #ddd;
+    }
+    .team-record td {
+        padding: 7px;
+    }
+    /* team_stats */
+    .team-stats {
+      text-align: center;
+      border-collapse: collapse;
+      margin: auto;
+      width: 60%
+    }
+    .team-stats th {
+      font-size: 13pt;
+      padding: 5px;
+      border-bottom: 1px solid #ddd;
+    }
+    .team-stats td {
+        padding: 7px;
+    }
+    /* prospect-info */
+    .prospect-info {
+      text-align: center;
+      border-collapse: collapse;
+      margin: auto;
+      width: 95%;
+    }
+    .prospect-info th {
+      font-size: 13pt;
+      padding: 5px;
+      border-bottom: 1px solid #ddd;
+    }
+    .prospect-info td {
+        padding: 7px;
+    }
+    .prospect-info tbody>tr:hover {
+        background-color: powderblue;
+    }
+
+/* player_page tables */
+    /* player-info-table */
+    .player-info-table {
+      border-collapse: collapse;
+      width: 30%
+    }
+    .player-info-table th {
+      font-size: 11pt;
+      padding: 5px;
+      border-bottom: 1px solid #ddd;
+      border-top: 1px solid #ddd;
+    }
+    .player-info-table td {
+        padding: 7px;
+        border-bottom: 1px solid #ddd;
+        border-top: 1px solid #ddd;
+    }
+    /* season-total-table */
+    .season-total-table {
+      text-align: center;
+      border-collapse: collapse;
+      margin: auto;
+      width: 95%;
+    }
+    .season-total-table th {
+      font-size: 13pt;
+      padding: 5px;
+      border-bottom: 1px solid #ddd;
+    }
+    .season-total-table td {
+        padding: 7px;
+    }
+    .season-total-table tbody>tr:hover {
+        background-color: powderblue;
+    }
+    /* game-log-table */
+    .game-log-table {
+      text-align: center;
+      border-collapse: collapse;
+      margin: auto;
+      width: 95%;
+    }
+    .game-log-table th {
+      font-size: 13pt;
+      padding: 5px;
+      border-bottom: 1px solid #ddd;
+    }
+    .game-log-table td {
+        padding: 7px;
+    }
+    .game-log-table tbody>tr:hover {
+        background-color: powderblue;
+    }
